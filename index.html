@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Reading Room — free stories & poems</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#1B1F2B;
+    --surface:#232939;
+    --surface-hi:#2B3247;
+    --paper:#ECE6D8;
+    --paper-dim:#A6ABBB;
+    --muted:#6E7488;
+    --amber:#E8A33D;
+    --amber-soft:#3A311F;
+    --rose:#C9847B;
+    --rose-soft:#33221F;
+    --border:#333A50;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--paper);
+    font-family:'Source Serif 4', serif;
+    min-height:100vh;
+  }
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.01ms !important; transition-duration:0.01ms !important;}
+  }
+  a{color:inherit; text-decoration:none;}
+  .ui{font-family:'Inter', sans-serif;}
+  .display{font-family:'Fraunces', serif;}
+
+  /* ---------- layout shell ---------- */
+  .wrap{max-width:1080px; margin:0 auto; padding:0 32px;}
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(27,31,43,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-row{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 32px; max-width:1080px; margin:0 auto;
+  }
+  .brand{display:flex; align-items:baseline; gap:10px;}
+  .brand .mark{
+    width:20px; height:20px; border-radius:50%;
+    background:radial-gradient(circle at 35% 30%, var(--amber), #8a611f 75%);
+    flex:0 0 auto;
+  }
+  .brand span{font-family:'Fraunces', serif; font-weight:600; font-size:21px; letter-spacing:0.3px;}
+  nav.links{display:flex; gap:28px; align-items:center;}
+  nav.links button{
+    background:none; border:none; color:var(--paper-dim); font-family:'Inter',sans-serif;
+    font-size:14px; cursor:pointer; padding:6px 2px; border-bottom:1px solid transparent;
+  }
+  nav.links button:hover, nav.links button.active{color:var(--paper); border-bottom-color:var(--amber);}
+  .search-box{position:relative;}
+  .search-box input{
+    background:var(--surface); border:1px solid var(--border); color:var(--paper);
+    font-family:'Inter',sans-serif; font-size:13px; padding:9px 14px 9px 32px;
+    border-radius:20px; width:190px; outline:none; transition:width .2s ease, border-color .2s ease;
+  }
+  .search-box input:focus{border-color:var(--amber); width:230px;}
+  .search-box svg{position:absolute; left:11px; top:50%; transform:translateY(-50%); opacity:0.55;}
+
+  /* ---------- hero ---------- */
+  .hero{
+    padding:88px 32px 72px; max-width:1080px; margin:0 auto;
+    display:grid; grid-template-columns:1.1fr 0.8fr; gap:60px; align-items:center;
+  }
+  .hero .eyebrow{
+    font-family:'Inter',sans-serif; font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--amber); margin-bottom:18px; display:block;
+  }
+  .hero h1{
+    font-family:'Fraunces', serif; font-weight:500; font-size:44px; line-height:1.18;
+    letter-spacing:-0.01em; margin-bottom:22px;
+  }
+  .hero h1 em{font-style:italic; color:var(--amber); font-weight:400;}
+  .hero p.lede{color:var(--paper-dim); font-size:17px; line-height:1.65; max-width:46ch; margin-bottom:30px;}
+  .hero-actions{display:flex; gap:14px; align-items:center;}
+  .btn-primary{
+    font-family:'Inter',sans-serif; font-size:14px; font-weight:500; color:#1B1F2B;
+    background:var(--amber); padding:12px 22px; border-radius:6px; border:none; cursor:pointer;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .btn-primary:hover{background:#f0b053;}
+  .btn-ghost{
+    font-family:'Inter',sans-serif; font-size:14px; color:var(--paper-dim);
+    padding:12px 6px; cursor:pointer; background:none; border:none;
+  }
+  .btn-ghost:hover{color:var(--paper);}
+
+  .hero-card{
+    background:var(--surface); border:1px solid var(--border); border-radius:2px;
+    padding:34px 32px; position:relative; overflow:hidden;
+  }
+  .hero-card::before{
+    content:""; position:absolute; top:0; left:0; width:3px; height:100%; background:var(--amber);
+  }
+  .hero-card .tag{
+    font-family:'Inter',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--amber); margin-bottom:14px; display:block;
+  }
+  .hero-card blockquote{
+    font-family:'Fraunces', serif; font-style:italic; font-weight:400; font-size:20px; line-height:1.55;
+    color:var(--paper); margin-bottom:18px;
+  }
+  .hero-card .byline{color:var(--paper-dim); font-size:13px; font-family:'Inter',sans-serif;}
+  .hero-card .byline b{color:var(--paper); font-weight:500;}
+
+  /* ---------- library section ---------- */
+  .section{max-width:1080px; margin:0 auto; padding:20px 32px 100px;}
+  .section-head{
+    display:flex; align-items:baseline; justify-content:space-between; margin-bottom:28px;
+    border-bottom:1px solid var(--border); padding-bottom:16px;
+  }
+  .section-head h2{font-family:'Fraunces',serif; font-weight:500; font-size:24px;}
+  .filters{display:flex; gap:8px; font-family:'Inter',sans-serif;}
+  .filters button{
+    background:none; border:1px solid var(--border); color:var(--paper-dim); font-size:12.5px;
+    padding:7px 14px; border-radius:20px; cursor:pointer;
+  }
+  .filters button:hover{border-color:var(--paper-dim); color:var(--paper);}
+  .filters button.active{background:var(--amber-soft); border-color:var(--amber); color:var(--amber);}
+
+  .grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:22px;}
+  .card{
+    background:var(--surface); border:1px solid var(--border); border-radius:2px;
+    padding:26px 24px; cursor:pointer; position:relative; overflow:hidden;
+    transition:border-color .18s ease, transform .18s ease;
+  }
+  .card:hover{border-color:var(--paper-dim); transform:translateY(-2px);}
+  .card::after{
+    content:""; position:absolute; top:0; right:0; width:0; height:0;
+    border-style:solid; border-width:0 22px 22px 0; border-color:transparent var(--bg) transparent transparent;
+    transition:border-width .18s ease;
+  }
+  .card:hover::after{border-width:0 26px 26px 0;}
+  .card .kicker{
+    display:flex; align-items:center; gap:8px; margin-bottom:14px;
+    font-family:'Inter',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:0.08em;
+  }
+  .kicker.story{color:var(--amber);}
+  .kicker.poem{color:var(--rose);}
+  .card h3{font-family:'Fraunces',serif; font-weight:500; font-size:19px; line-height:1.3; margin-bottom:10px;}
+  .card .excerpt{color:var(--paper-dim); font-size:14.5px; line-height:1.6; margin-bottom:18px;}
+  .card .meta{
+    display:flex; justify-content:space-between; align-items:center;
+    font-family:'Inter',sans-serif; font-size:12px; color:var(--muted);
+    border-top:1px solid var(--border); padding-top:14px;
+  }
+  .empty-state{
+    text-align:center; padding:60px 20px; color:var(--paper-dim); font-family:'Inter',sans-serif; font-size:14px;
+  }
+
+  /* ---------- reading view ---------- */
+  .reader{display:none;}
+  .reader.active{display:block;}
+  .home{display:block;}
+  .home.hidden{display:none;}
+
+  .progress-rail{
+    position:fixed; left:0; top:0; width:4px; height:100vh; background:var(--surface); z-index:40;
+  }
+  .progress-fill{width:100%; background:var(--amber); height:0%; transition:height .1s linear;}
+
+  .reader-top{max-width:720px; margin:0 auto; padding:48px 32px 0;}
+  .back-link{
+    font-family:'Inter',sans-serif; font-size:13px; color:var(--paper-dim); cursor:pointer;
+    display:inline-flex; align-items:center; gap:6px; margin-bottom:36px; background:none; border:none;
+  }
+  .back-link:hover{color:var(--amber);}
+  .reader-kicker{
+    font-family:'Inter',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:0.1em; margin-bottom:16px;
+  }
+  .reader h1{font-family:'Fraunces',serif; font-weight:500; font-size:38px; line-height:1.2; margin-bottom:14px;}
+  .reader .subline{
+    display:flex; gap:16px; align-items:center; color:var(--paper-dim); font-family:'Inter',sans-serif;
+    font-size:13px; margin-bottom:44px; padding-bottom:32px; border-bottom:1px solid var(--border);
+  }
+  .reader-body{max-width:720px; margin:0 auto; padding:0 32px 80px;}
+  .reader-body p{font-size:19px; line-height:1.85; margin-bottom:26px; color:var(--paper);}
+  .reader-body p.first-line::first-letter{
+    font-family:'Fraunces',serif; font-size:58px; font-weight:600; float:left; line-height:0.85;
+    margin:8px 10px 0 0; color:var(--amber);
+  }
+  .reader-body.poem p{
+    font-size:20px; line-height:2; font-style:normal; margin-bottom:6px;
+  }
+  .reader-body.poem .stanza{margin-bottom:34px;}
+  .reader-end{
+    max-width:720px; margin:0 auto; padding:0 32px 90px;
+  }
+  .divider-mark{
+    text-align:center; color:var(--amber); font-size:20px; margin:10px 0 50px; letter-spacing:10px;
+  }
+  .related-label{
+    font-family:'Inter',sans-serif; font-size:11px; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--muted); margin-bottom:18px;
+  }
+  .related-list{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+  .related-item{
+    border:1px solid var(--border); padding:18px 20px; cursor:pointer; transition:border-color .18s ease;
+  }
+  .related-item:hover{border-color:var(--paper-dim);}
+  .related-item .k{font-family:'Inter',sans-serif; font-size:10.5px; text-transform:uppercase; color:var(--rose); margin-bottom:6px;}
+  .related-item h4{font-family:'Fraunces',serif; font-size:15.5px; font-weight:500;}
+
+  footer{
+    border-top:1px solid var(--border); padding:36px 32px; text-align:center;
+    color:var(--muted); font-family:'Inter',sans-serif; font-size:12.5px;
+  }
+
+  @media (max-width:820px){
+    .hero{grid-template-columns:1fr; padding-top:56px;}
+    .hero h1{font-size:34px;}
+    .grid{grid-template-columns:1fr 1fr;}
+    .nav-row{padding:16px 20px; flex-wrap:wrap; gap:14px;}
+    .search-box input{width:140px;}
+    nav.links{gap:18px; order:3; width:100%; justify-content:center;}
+  }
+  @media (max-width:560px){
+    .grid{grid-template-columns:1fr;}
+    .related-list{grid-template-columns:1fr;}
+    .reader h1{font-size:29px;}
+    .wrap, .hero, .section{padding-left:20px; padding-right:20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div>
+
+<header class="site">
+  <div class="nav-row">
+    <div class="brand" style="cursor:pointer" onclick="goHome()">
+      <div class="mark"></div>
+      <span>The Reading Room</span>
+    </div>
+    <nav class="links ui" id="filterNav">
+      <button data-filter="all" class="active" onclick="setFilter('all', this)">All</button>
+      <button data-filter="story" onclick="setFilter('story', this)">Stories</button>
+      <button data-filter="poem" onclick="setFilter('poem', this)">Poems</button>
+    </nav>
+    <div class="search-box">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      <input type="text" id="searchInput" placeholder="Search titles, authors, tags…" oninput="renderGrid()">
+    </div>
+  </div>
+</header>
+
+<main id="home" class="home">
+  <section class="hero">
+    <div>
+      <span class="eyebrow">A free reading room</span>
+      <h1 class="display">Stories and poems, <em>read at your own pace</em>.</h1>
+      <p class="lede">A small, ad-free shelf of short fiction and verse — new pages added often, nothing behind a paywall, nothing to sign up for. Pick something up, read a while.</p>
+      <div class="hero-actions">
+        <button class="btn-primary" onclick="openPiece('lighthouse-keeper')">
+          Start reading
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </button>
+        <button class="btn-ghost" onclick="scrollToLibrary()">Browse the shelf</button>
+      </div>
+    </div>
+    <div class="hero-card" onclick="openPiece('lighthouse-keeper')">
+      <span class="ui tag">Featured story</span>
+      <blockquote>"The lighthouse hadn't warned a ship away in eleven years. Mara kept it lit anyway, the way you keep setting a place at the table."</blockquote>
+      <div class="byline">From <b>The Lighthouse Keeper's Ledger</b> — by Priya Naidu</div>
+    </div>
+  </section>
+
+  <section class="section" id="library">
+    <div class="section-head">
+      <h2>The shelf</h2>
+      <div class="filters ui" id="filterNav2">
+        <button data-filter="all" class="active" onclick="setFilter('all', this)">All</button>
+        <button data-filter="story" onclick="setFilter('story', this)">Stories</button>
+        <button data-filter="poem" onclick="setFilter('poem', this)">Poems</button>
+      </div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <footer>The Reading Room — free to read, always. Built for anyone who wants a quiet corner and something good to read.</footer>
+</main>
+
+<article id="reader" class="reader">
+  <div class="reader-top">
+    <button class="back-link ui" onclick="goHome()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+      Back to the shelf
+    </button>
+    <span class="reader-kicker ui" id="readerKicker"></span>
+    <h1 class="display" id="readerTitle"></h1>
+    <div class="subline">
+      <span id="readerAuthor"></span>
+      <span>·</span>
+      <span id="readerMeta"></span>
+    </div>
+  </div>
+  <div class="reader-body" id="readerBody"></div>
+  <div class="reader-end">
+    <div class="divider-mark">· · ·</div>
+    <div class="related-label ui">Read next</div>
+    <div class="related-list" id="relatedList"></div>
+  </div>
+  <footer>The Reading Room — free to read, always.</footer>
+</article>
+
+<script>
+const pieces = [
+  {
+    id:'lighthouse-keeper', type:'story', title:"The Lighthouse Keeper's Ledger",
+    author:'Priya Naidu', readTime:'6 min read', tags:['quiet fiction','sea'],
+    excerpt:"The lighthouse hadn't warned a ship away in eleven years, but Mara kept it lit anyway — the way you keep setting a place at the table.",
+    body:[
+      "The lighthouse hadn't warned a ship away in eleven years. The shipping lanes had moved twenty miles east after the new port opened, and the coast guard had written twice to say the light could be decommissioned, that Mara could retire with her pension intact and her evenings finally her own. She wrote back twice to say no.",
+      "She kept a ledger, the old kind, cloth-bound and swollen with damp. Each night she logged the weather, the visibility, the state of the lamp — not because anyone asked her to anymore, but because the habit had outlived its reason the way most good habits do. Wind: north-northwest, twelve knots. Fog: none. Lamp: lit at 6:52, as it should be.",
+      "Her daughter called on Sundays and asked, gently, whether she'd thought about the ledger differently — whether keeping it wasn't a little like setting a place at the table for someone who was never coming home. Mara said that was exactly what it was like, and that she didn't see the problem with it.",
+      "What she didn't say was that three nights a year, maybe four, a boat did still pass close enough to need the light. Fishermen who'd drifted further than they meant to, mostly, chasing something in the dark. They never knew her name. They only knew that somewhere on the black water a small gold window had stayed open for them, faithfully, long after anyone expected it to.",
+      "On the ledger's last page, where the format called for remarks, she'd started writing the same line each December thirty-first, for eleven years running: still worth it. She turned the lamp up a notch that night, though the manual didn't call for it, and watched the beam sweep the water like a hand smoothing a bedsheet."
+    ]
+  },
+  {
+    id:'grammar-of-rain', type:'poem', title:'A Grammar of Rain',
+    author:'Osei Boateng', readTime:'2 min read', tags:['nature','short verse'],
+    excerpt:'A short poem tracing the way rain changes tense — future, present, and the long past it leaves behind on the glass.',
+    body:[
+      ["Rain arrives always in the future tense —","a smell first, iron and cut grass,","the sky clearing its throat","before it speaks."],
+      ["Then it is only present. No memory,","no plan, just weight finding the fastest","way down, glass keeping score","in crooked lines."],
+      ["After, the grammar changes again:","gutters speaking in the past continuous,","the garden remembering itself","one green inch at a time."],
+      ["I stand at the window doing what rain does —","arriving, falling, and then,","slowly, being the reason","something else grew."]
+    ]
+  },
+  {
+    id:'last-customer', type:'story', title:'The Last Customer of the Night',
+    author:'Farida Haque', readTime:'5 min read', tags:['slice of life','city'],
+    excerpt:'A tea-stall owner and a stranger who shows up every night at closing time, never buying more than one cup, never explaining why.',
+    body:[
+      "Rafiq closed the stall at eleven, or tried to. Every night at ten fifty-eight, before he could lift the shutter, the same man arrived — no name given in three months of nightly visits, just a nod and a raised finger meaning one cup, no sugar.",
+      "He never sat. He drank the tea standing at the counter, facing the empty street, and left exactly enough coins to cover it, not a taka more. Rafiq had stopped trying to make conversation around visit forty; the man answered in single words, if at all, and seemed to prefer it that way.",
+      "It was the delivery boy, Shonu, who finally explained it, having recognized the man from a hospital two streets over. Nurses' shift change was at eleven. The man's wife worked the night shift, and this was the ten minutes between when he dropped her at the gate and when he could bear to go home to a flat that had, until recently, held two people instead of one.",
+      "Rafiq never mentioned that he knew. But he started keeping the good cups — the ones without chips — aside after ten forty-five, just in case, and pretending it was nothing when the man noticed and, for the first time, said thank you instead of nothing at all."
+    ]
+  },
+  {
+    id:'inventory', type:'poem', title:'Inventory',
+    author:'Meera Iyengar', readTime:'2 min read', tags:['memory','family'],
+    excerpt:'A quiet accounting of what is left in a childhood home, and what a house keeps of the people who leave it.',
+    body:[
+      ["Two chairs, one that rocks and one that used to.","A drawer of batteries, none of them labeled dead or alive.","My father's handwriting on a jar of nails,","sorted by a system only he understood."],
+      ["The kitchen still keeps the smell of Sunday","in a place smells shouldn't be able to stay —","in the grout, maybe, or the wood","of a table older than the marriage that bought it."],
+      ["I am not sentimental, I tell myself,","folding a shirt no one will wear again","into a box marked keep","in handwriting that looks alarmingly like his."],
+      ["Some houses are haunted by ghosts.","Mine is haunted by an inventory —","every object a small, stubborn insistence","that someone was here, and loved it here, once."]
+    ]
+  },
+  {
+    id:'understudy', type:'story', title:'The Understudy',
+    author:'Diego Alvarado', readTime:'7 min read', tags:['theatre','ambition'],
+    excerpt:"Six years as an understudy who never once went on. Then, one Tuesday matinee, the lead loses her voice.",
+    body:[
+      "Six years Camila had understudied the role of Inés in a play that, by year four, she could have performed backward, drunk, in a power outage. She knew every pause the lead took, every place the director had asked for a breath instead of a word. She had never gone on stage in front of a single paying audience.",
+      "This was not, she had decided, a tragedy. It was simply the shape her career had taken, the way a river takes the shape of the land instead of arguing with it. She was good at understudying. She was, if she allowed herself the thought at 2 a.m., possibly the best there had ever been at knowing a part she would never play.",
+      "On a Tuesday matinee in October, the lead lost her voice to a cold that had been going around the cast for a week, and the stage manager found Camila in the wings already dressed, because some part of her — some old, patient, unkillable part — had been dressing for this exact Tuesday for six years without telling the rest of her.",
+      "She does not remember walking on stage. She remembers the second line, the one where Inés says she is not afraid of the dark, only of what she might say to fill it, and she remembers that the audience laughed exactly where they were supposed to, which felt less like relief and more like recognition — as if they, too, had been waiting for her, without knowing her name, for six patient years.",
+      "Afterward, in the dressing room, she didn't cry, though she'd expected to. She wrote one line in the small notebook she kept for exactly this purpose, unused until that day: Tuesday. Finally Tuesday. Then she closed it and went to help the lead with her tea and honey, because someone would have to be ready again on Wednesday, and Camila, more than anyone alive, understood the dignity of being ready."
+    ]
+  },
+  {
+    id:'small-hours', type:'poem', title:'Small Hours',
+    author:'Osei Boateng', readTime:'1 min read', tags:['insomnia','night'],
+    excerpt:'A brief poem about the particular company of being awake when the rest of the house is not.',
+    body:[
+      ["Three a.m. keeps its own quiet economy —","every sound spent carefully,","the fridge's hum worth more","than it was at noon."],
+      ["I am the only shop open on this street,","lit for no customer,","selling nothing but the fact","of being still awake."],
+      ["Somewhere my mother sleeps the sleep","of someone who trusts the night","to behave itself.","I am checking, just in case."]
+    ]
+  },
+  {
+    id:'repair-shop', type:'story', title:'What the Repair Shop Keeps',
+    author:'Farida Haque', readTime:'6 min read', tags:['craft','small towns'],
+    excerpt:'An old watch-repairer takes on one last apprentice, and teaches her the difference between fixing a thing and understanding it.',
+    body:[
+      "Old Manik had turned away eleven apprentices in nineteen years, all of them impatient, all of them wanting to skip to the part where they fixed something. Anju was the twelfth, and for the first three weeks he had her do nothing but clean parts that were already clean, to teach her hands to be slow before he trusted them to be precise.",
+      "\"A watch that runs is not the same as a watch that is fixed,\" he told her, more than once, in the specific tone of a man repeating something he'd once had to learn the hard way. \"Anyone can force the hands to move. The question is whether it will still be telling the truth in a year.\"",
+      "She didn't understand him until the day a customer brought in her late husband's watch, stopped for six months, and asked only that it be made to run again, any way at all, because she couldn't bear the stillness of it on the shelf. Manik spent four hours on a fifteen-minute repair, replacing a worn gear with one he'd hand-filed to match the original tolerances exactly, rather than the close-enough part sitting in his drawer.",
+      "\"She will wear this every day for the rest of her life,\" he said, when Anju asked why he'd bothered. \"It has to be right, not just working. There's a difference, and it's the only difference that matters in this shop.\"",
+      "When Manik retired the following spring, he left her the shop, the tools, and a single instruction taped inside the register drawer: slow hands, honest gears, no shortcuts on the ones that matter to someone. She has not taken on an apprentice of her own yet. But she thinks about what she'll say when she does, and it always starts the same way his did."
+    ]
+  }
+];
+
+let currentFilter = 'all';
+
+function setFilter(filter, el){
+  currentFilter = filter;
+  document.querySelectorAll('#filterNav button, #filterNav2 button').forEach(b=>{
+    b.classList.toggle('active', b.dataset.filter === filter);
+  });
+  renderGrid();
+}
+
+function renderGrid(){
+  const grid = document.getElementById('grid');
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  let list = pieces.filter(p => currentFilter === 'all' || p.type === currentFilter);
+  if(q){
+    list = list.filter(p =>
+      p.title.toLowerCase().includes(q) ||
+      p.author.toLowerCase().includes(q) ||
+      p.tags.some(t => t.toLowerCase().includes(q))
+    );
+  }
+  if(list.length === 0){
+    grid.innerHTML = '<div class="empty-state">Nothing matches that search. Try a different word, or clear the filters.</div>';
+    return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="card" onclick="openPiece('${p.id}')">
+      <div class="kicker ${p.type}">${p.type === 'story' ? '✎ Story' : '❧ Poem'}</div>
+      <h3 class="display">${p.title}</h3>
+      <div class="excerpt">${p.excerpt}</div>
+      <div class="meta"><span>${p.author}</span><span>${p.readTime}</span></div>
+    </div>
+  `).join('');
+}
+
+function openPiece(id){
+  const p = pieces.find(x => x.id === id);
+  if(!p) return;
+  document.getElementById('home').classList.add('hidden');
+  const reader = document.getElementById('reader');
+  reader.classList.add('active');
+
+  document.getElementById('readerKicker').textContent = p.type === 'story' ? 'Story' : 'Poem';
+  document.getElementById('readerKicker').style.color = p.type === 'story' ? 'var(--amber)' : 'var(--rose)';
+  document.getElementById('readerTitle').textContent = p.title;
+  document.getElementById('readerAuthor').textContent = 'by ' + p.author;
+  document.getElementById('readerMeta').textContent = p.readTime + ' · ' + p.tags.join(', ');
+
+  const bodyEl = document.getElementById('readerBody');
+  bodyEl.className = 'reader-body' + (p.type === 'poem' ? ' poem' : '');
+  if(p.type === 'story'){
+    bodyEl.innerHTML = p.body.map((para, i) =>
+      `<p class="${i === 0 ? 'first-line' : ''}">${para}</p>`
+    ).join('');
+  } else {
+    bodyEl.innerHTML = p.body.map(stanza =>
+      `<div class="stanza">${stanza.map(line => `<p>${line}</p>`).join('')}</div>`
+    ).join('');
+  }
+
+  const related = pieces.filter(x => x.id !== p.id && (x.type === p.type || x.author === p.author)).slice(0,2);
+  const fallback = pieces.filter(x => x.id !== p.id).slice(0,2);
+  const relList = related.length ? related : fallback;
+  document.getElementById('relatedList').innerHTML = relList.map(r => `
+    <div class="related-item" onclick="openPiece('${r.id}')">
+      <div class="k ui">${r.type === 'story' ? 'Story' : 'Poem'}</div>
+      <h4>${r.title}</h4>
+    </div>
+  `).join('');
+
+  window.scrollTo(0,0);
+}
+
+function goHome(){
+  document.getElementById('reader').classList.remove('active');
+  document.getElementById('home').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+
+function scrollToLibrary(){
+  document.getElementById('library').scrollIntoView({behavior:'smooth'});
+}
+
+window.addEventListener('scroll', () => {
+  const h = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = h > 0 ? (window.scrollY / h) * 100 : 0;
+  document.getElementById('progressFill').style.height = pct + '%';
+});
+
+renderGrid();
+</script>
+</body>
+</html>
